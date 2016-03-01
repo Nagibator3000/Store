@@ -91,11 +91,67 @@ public class SqlLiteTest {
 
                     break;
                 case "3":
+                    System.out.println("Enter operation");
+                    System.out.println("1: print all purchases");
+                    System.out.println("2: insert new purchase");
+                    System.out.println("3: delete purchase");
+                    String z = readString();
+                    switch (z) {
+                        case "1":
+                            printAllPurchases();
+                            break;
+                        case "2":
+                            insertNewPurchase();
+                            break;
+
+                    }
                     break;
             }
 
 
         }
+    }
+
+
+    private static void insertNewPurchase() throws IOException, SQLException {
+        System.out.println("Enter product id");
+        String prId = readString();
+        System.out.println("Enter customer id");
+        String cId = readString();
+        System.out.println("Enter amount");
+        String amount = readString();
+        System.out.println("Enter year of purchase");
+        String year = readString();
+        System.out.println("Enter month of purchase");
+        String month = readString();
+        System.out.println("Enter day of purchase");
+        String day = readString();
+        String dataPurchaseDay = year+"-"+month+"-"+day;
+        PreparedStatement prep = conn.prepareStatement("INSERT  INTO  Purchases (PRODUCT_ID,CUSTOMER_ID,AMOUNT,PURCHASE_DATE) VALUES (?,?,?,?)");
+        prep.setInt(1, Integer.parseInt(prId));
+        prep.setInt(2, Integer.parseInt(cId));
+        prep.setInt(3, Integer.parseInt(amount));
+        prep.setString(4, dataPurchaseDay);
+        prep.addBatch();
+
+        conn.setAutoCommit(false);
+        prep.executeBatch();
+        conn.setAutoCommit(true);
+        System.out.println("Purchase has been added");
+        System.out.println();
+
+    }
+
+    private static void printAllPurchases() throws SQLException {
+        Statement stat = conn.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM PURCHASES");
+        System.out.println("ID | PRODUCT_ID | CUSTOMER_ID | AMOUNT | PURCHASE_DATE");
+        while (rs.next()) {
+            System.out.println(rs.getString(1) + ",         " + rs.getString(2) + ",         " + rs.getString(3)+ ",         " + rs.getString(4)+ ",        " + rs.getString(5));
+        }
+        rs.close();
+
+
     }
 
     private static void deleteCustomers() throws SQLException, IOException {
