@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
 
-public class SqlLiteTest {
+public class Core {
 
 
     private static Connection conn;
@@ -274,7 +274,7 @@ public class SqlLiteTest {
         System.out.println();
     }
 
-    private static void printAllProducts() throws ClassNotFoundException, SQLException {
+    public static void printAllProducts() throws ClassNotFoundException, SQLException {
         Statement stat = conn.createStatement();
         ResultSet rs = stat.executeQuery("SELECT * FROM PRODUCTS");
         System.out.println("ID,NAME,PRICE");
