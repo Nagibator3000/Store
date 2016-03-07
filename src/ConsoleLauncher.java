@@ -12,34 +12,12 @@ import java.util.List;
 
 public class ConsoleLauncher {
 
-
     private static Db db;
 
     public static void main(String[] args) throws Exception {
         db = new Db();
         readUserInput();
-
     }
-
-/*
-    private static void simpleSelectFromeStore() throws ClassNotFoundException, SQLException, IOException {
-        System.out.println("Starting...");
-        Class.forName("org.sqlite.JDBC");
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:Db");
-
-
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery("select c.name 'customer_name',p.[PURCHASE_DATE], pr.name 'product_name',pr.[PRICE]*p.amount 'Summa', p.amount\n" +
-                "from purchases p,customers c,products pr\n" +
-                "where p.customer_id = c.id and p.product_id = pr.id");
-        while (rs.next()) {
-            System.out.println("name = " + rs.getString("customer_name") + " PRODUCT_NAME = " + rs.getString("product_name"));
-        }
-        rs.close();
-        conn.close();
-    }
-*/
-
 
     private static String readString() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -100,7 +78,6 @@ public class ConsoleLauncher {
                     System.out.println("Enter operation");
                     System.out.println("1: print all purchases");
                     System.out.println("2: insert new purchase");
-                    System.out.println("3: delete purchase");
                     String z = readString();
                     switch (z) {
                         case "1":
@@ -156,7 +133,7 @@ public class ConsoleLauncher {
             System.out.println("Enter ID");
             String id = readString();
             db.deleteCustomer(Long.parseLong(id));
-            System.out.println("Product has been deleted");
+            System.out.println("Customer has been deleted");
             System.out.println();
         } else {
             System.out.println("Enter Name");
@@ -215,7 +192,6 @@ public class ConsoleLauncher {
             System.out.println("Product has been deleted");
             System.out.println();
         }
-
     }
 
     private static void insertNewProduct() throws IOException, SQLException {
@@ -230,43 +206,10 @@ public class ConsoleLauncher {
     }
 
     public static void printAllProducts() throws ClassNotFoundException, SQLException {
-
         System.out.println("ID,NAME,PRICE");
         List<Product> productslist  = db.findAllProducts() ;
         for (Product product : productslist) {
             System.out.println(product.id+" , "+product.name+" , "+product.price);
         }
-
-    }
-
-
-    private static void createTestDataBase() throws ClassNotFoundException, SQLException {
-        System.out.println("Starting...");
-        Class.forName("org.sqlite.JDBC");
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:test.db");
-        Statement stat = conn.createStatement();
-        stat.executeUpdate("drop table if exists people;");
-        stat.executeUpdate("create table people (name, occupation);");
-        PreparedStatement prep = conn.prepareStatement("insert into people values (?, ?);");
-        prep.setString(1, "Gandi");
-        prep.setString(2, "politics");
-        prep.addBatch();
-        prep.setString(1, "Truning");
-        prep.setString(2, "computers");
-        prep.addBatch();
-        prep.setString(1, "Jobs");
-        prep.setString(2, "computers");
-        prep.addBatch();
-
-        conn.setAutoCommit(false);
-        prep.executeBatch();
-        conn.setAutoCommit(true);
-
-        ResultSet rs = stat.executeQuery("select * from people order by occupation;");
-        while (rs.next()) {
-            System.out.println("name = " + rs.getString("name") + " occupation = " + rs.getString("occupation"));
-        }
-        rs.close();
-
     }
 }

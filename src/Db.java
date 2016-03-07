@@ -1,8 +1,10 @@
 import model.Customer;
 import model.Product;
 import model.Purchase;
+import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,9 @@ public class Db {
 
     public Db() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:Db");
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+        conn = DriverManager.getConnection("jdbc:sqlite:Db", config.toProperties());
 
     }
 
@@ -92,7 +96,14 @@ public class Db {
         ResultSet rs = stat.executeQuery("SELECT * FROM CUSTOMERS");
         List<Customer> list = new ArrayList<>();
         while (rs.next()) {
-            Customer customer = new Customer(rs.getLong(1), rs.getString(2), rs.getDate(3).getTime());
+            Date date = rs.getDate(3);
+            long time;
+            if (date == null) {
+                time = -1;
+            } else {
+                time = date.getTime();
+            }
+            Customer customer = new Customer(rs.getLong(1), rs.getString(2), time);
             list.add(customer);
         }
         rs.close();
