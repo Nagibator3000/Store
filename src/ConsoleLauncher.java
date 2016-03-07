@@ -1,18 +1,24 @@
+import model.Customer;
+import model.Product;
+import model.Purchase;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
-public class Core {
+public class ConsoleLauncher {
 
 
-    private static Connection conn;
+    private static Db db;
 
     public static void main(String[] args) throws Exception {
-        Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:Db");
+        db = new Db();
         readUserInput();
-        conn.close();
+
     }
 
 /*
@@ -41,7 +47,7 @@ public class Core {
         return s;
     }
 
-    private static void readUserInput() throws IOException, SQLException, ClassNotFoundException {
+    private static void readUserInput() throws IOException, SQLException, ClassNotFoundException, ParseException {
         while (true) {
             System.out.println();
             System.out.println("Choose table");
@@ -76,7 +82,7 @@ public class Core {
                     System.out.println("1: print all customers");
                     System.out.println("2: insert new customers");
                     System.out.println("3: delete customers");
-                    String y =readString();
+                    String y = readString();
                     switch (y) {
                         case "1":
                             printAllCustomers();
@@ -113,45 +119,32 @@ public class Core {
     }
 
 
-    private static void insertNewPurchase() throws IOException, SQLException {
+    private static void insertNewPurchase() throws IOException, SQLException, ParseException {
+        Purchase purchase = new Purchase();
         System.out.println("Enter product id");
-        String prId = readString();
+        purchase.productId = Long.parseLong(readString());
         System.out.println("Enter customer id");
-        String cId = readString();
+        purchase.customerId = Long.parseLong(readString());
         System.out.println("Enter amount");
-        String amount = readString();
+        purchase.amount = Double.parseDouble(readString());
         System.out.println("Enter year of purchase");
         String year = readString();
         System.out.println("Enter month of purchase");
         String month = readString();
         System.out.println("Enter day of purchase");
         String day = readString();
-        String dataPurchaseDay = year+"-"+month+"-"+day;
-        PreparedStatement prep = conn.prepareStatement("INSERT  INTO  Purchases (PRODUCT_ID,CUSTOMER_ID,AMOUNT,PURCHASE_DATE) VALUES (?,?,?,?)");
-        prep.setInt(1, Integer.parseInt(prId));
-        prep.setInt(2, Integer.parseInt(cId));
-        prep.setInt(3, Integer.parseInt(amount));
-        prep.setString(4, dataPurchaseDay);
-        prep.addBatch();
-
-        conn.setAutoCommit(false);
-        prep.executeBatch();
-        conn.setAutoCommit(true);
+        purchase.purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(year + "-" + month + "-" + day);
+        db.insert(purchase);
         System.out.println("Purchase has been added");
         System.out.println();
-
     }
 
     private static void printAllPurchases() throws SQLException {
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT * FROM PURCHASES");
         System.out.println("ID | PRODUCT_ID | CUSTOMER_ID | AMOUNT | PURCHASE_DATE");
-        while (rs.next()) {
-            System.out.println(rs.getString(1) + ",         " + rs.getString(2) + ",         " + rs.getString(3)+ ",         " + rs.getString(4)+ ",        " + rs.getString(5));
+        List<Purchase> purchaseList = db.findAllPurchases();
+        for (Purchase purchase : purchaseList) {
+            System.out.println(purchase.id + ",         " + purchase.productId + ",         " + purchase.customerId + ",         " + purchase.amount + ",        " + purchase.purchaseDate);
         }
-        rs.close();
-
-
     }
 
     private static void deleteCustomers() throws SQLException, IOException {
@@ -159,29 +152,17 @@ public class Core {
         System.out.println("1: remove on ID");
         System.out.println("2: remove on name");
         String choice = readString();
-        PreparedStatement prep;
         if (choice.equals("1")) {
             System.out.println("Enter ID");
             String id = readString();
-            prep = conn.prepareStatement("DELETE FROM Customers WHERE ID=?");
-            prep.setInt(1, Integer.parseInt(id));
-
-            prep.addBatch();
-            conn.setAutoCommit(false);
-            prep.executeBatch();
-            conn.setAutoCommit(true);
+            db.deleteCustomer(Long.parseLong(id));
             System.out.println("Product has been deleted");
             System.out.println();
         } else {
             System.out.println("Enter Name");
             String name = readString();
-            prep = conn.prepareStatement("DELETE FROM Customers WHERE NAME=?");
-            prep.setString(1, name);
+            db.deleteCustomer(name);
 
-            prep.addBatch();
-            conn.setAutoCommit(false);
-            prep.executeBatch();
-            conn.setAutoCommit(true);
             System.out.println("Customer has been deleted");
             System.out.println();
         }
@@ -189,38 +170,30 @@ public class Core {
 
     }
 
-    private static void insertNewCustomers() throws IOException, SQLException {
+    private static void insertNewCustomers() throws IOException, SQLException, ParseException {
+        Customer customer = new Customer();
         System.out.println("Enter customer name");
-        String name = readString();
+        customer.name = readString();
         System.out.println("Enter year");
         String year = readString();
         System.out.println("Enter month");
         String month = readString();
         System.out.println("Enter day");
         String day = readString();
-        String dataBirthDay = year+"-"+month+"-"+day;
-        PreparedStatement prep = conn.prepareStatement("INSERT INTO Customers  VALUES (null,?,?)");
-        prep.setString(1, name);
-        prep.setString(2, dataBirthDay);
-        prep.addBatch();
 
-        conn.setAutoCommit(false);
-        prep.executeBatch();
-        conn.setAutoCommit(true);
+        customer.dateBirthDay = new SimpleDateFormat("yyyy-MM-dd").parse(year + "-" + month + "-" + day);
+        db.insertCustomer(customer);
         System.out.println("Customer has been added");
         System.out.println();
 
     }
 
     private static void printAllCustomers() throws SQLException {
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT * FROM CUSTOMERS");
         System.out.println("ID,NAME,BIRTH_DATE");
-        while (rs.next()) {
-            System.out.println(rs.getString(1) + ", " + rs.getString(2) + ", " + rs.getString(3));
+        List<Customer> customerList =db.findAllCustomers();
+        for (Customer customer : customerList) {
+            System.out.println(customer.id+" , "+customer.name+" , "+customer.dateBirthDay);
         }
-        rs.close();
-
     }
 
     private static void deleteProduct() throws IOException, SQLException {
@@ -228,29 +201,17 @@ public class Core {
         System.out.println("1: remove on ID");
         System.out.println("2: remove on name");
         String choice = readString();
-        PreparedStatement prep;
+
         if (choice.equals("1")) {
             System.out.println("Enter ID");
             String id = readString();
-            prep = conn.prepareStatement("DELETE FROM Products WHERE ID=?");
-            prep.setInt(1, Integer.parseInt(id));
-
-            prep.addBatch();
-            conn.setAutoCommit(false);
-            prep.executeBatch();
-            conn.setAutoCommit(true);
+            db.deleteProduct(Long.valueOf(id));
             System.out.println("Product has been deleted");
             System.out.println();
         } else {
             System.out.println("Enter Name");
             String name = readString();
-            prep = conn.prepareStatement("DELETE FROM Products WHERE NAME=?");
-            prep.setString(1, name);
-
-            prep.addBatch();
-            conn.setAutoCommit(false);
-            prep.executeBatch();
-            conn.setAutoCommit(true);
+            db.deleteProduct(name);
             System.out.println("Product has been deleted");
             System.out.println();
         }
@@ -258,30 +219,23 @@ public class Core {
     }
 
     private static void insertNewProduct() throws IOException, SQLException {
+        Product product = new Product();
         System.out.println("Enter product name");
-        String name = readString();
+        product.name = readString();
         System.out.println("Enter product price");
-        String price = readString();
-        PreparedStatement prep = conn.prepareStatement("INSERT INTO Products  VALUES (null,?,?)");
-        prep.setString(1, name);
-        prep.setDouble(2, Double.parseDouble(price));
-        prep.addBatch();
-
-        conn.setAutoCommit(false);
-        prep.executeBatch();
-        conn.setAutoCommit(true);
+        product.price = Double.parseDouble(readString());
+        db.insertNewProduct(product);
         System.out.println("Product has been added");
         System.out.println();
     }
 
     public static void printAllProducts() throws ClassNotFoundException, SQLException {
-        Statement stat = conn.createStatement();
-        ResultSet rs = stat.executeQuery("SELECT * FROM PRODUCTS");
+
         System.out.println("ID,NAME,PRICE");
-        while (rs.next()) {
-            System.out.println(rs.getString(1) + ", " + rs.getString(2) + ", " + rs.getString(3));
+        List<Product> productslist  = db.findAllProducts() ;
+        for (Product product : productslist) {
+            System.out.println(product.id+" , "+product.name+" , "+product.price);
         }
-        rs.close();
 
     }
 
