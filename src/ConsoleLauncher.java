@@ -115,11 +115,11 @@ public class ConsoleLauncher {
     }
 
     private static void printAllPurchases() throws SQLException {
-        System.out.println("ID | PRODUCT_ID | CUSTOMER_ID | AMOUNT | PURCHASE_DATE");
+        System.out.println("ID | PRODUCT_ID |PRODUCT_NAME| CUSTOMER_ID |CUSTOMER_NAME| AMOUNT | PURCHASE_DATE");
         List<Purchase> purchaseList = db.findAllPurchases();
         for (Purchase purchase : purchaseList) {
-            System.out.println(purchase.id + ",         " + purchase.productId + ",  "+purchase.productName+ "      "
-                    + purchase.customerId + ",  "+purchase.customerName+ "    ,   " + purchase.amount + ",        " + purchase.purchaseDate);
+            System.out.println(purchase.id + "            " + purchase.productId + "     "+purchase.productName+ "             "
+                    + purchase.customerId + "            "+purchase.customerName+ "         " + purchase.amount + ",        " + purchase.purchaseDate);
         }
     }
 
