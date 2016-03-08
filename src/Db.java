@@ -33,13 +33,13 @@ public class Db {
     }
 
     public List<Purchase> findAllPurchases() throws SQLException {
-
-
         Statement stat = conn.createStatement();
         ResultSet rs = stat.executeQuery("SELECT * FROM PURCHASES");
         List<Purchase> list = new ArrayList<>();
         while (rs.next()) {
             Purchase purchase = new Purchase(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getDouble(4), rs.getDate(5).getTime());
+            purchase.customerName = "TODO";
+            purchase.productName = "TODO";
             list.add(purchase);
         }
         rs.close();

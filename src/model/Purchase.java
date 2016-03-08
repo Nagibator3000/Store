@@ -8,6 +8,8 @@ public class Purchase {
     public long customerId;
     public double amount;
     public Date purchaseDate;
+    public String customerName;
+    public String productName;
 
     public Purchase(long id, long productId, long customerId, double amount, long date) {
 

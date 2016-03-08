@@ -90,8 +90,6 @@ public class ConsoleLauncher {
                     }
                     break;
             }
-
-
         }
     }
 
@@ -120,7 +118,8 @@ public class ConsoleLauncher {
         System.out.println("ID | PRODUCT_ID | CUSTOMER_ID | AMOUNT | PURCHASE_DATE");
         List<Purchase> purchaseList = db.findAllPurchases();
         for (Purchase purchase : purchaseList) {
-            System.out.println(purchase.id + ",         " + purchase.productId + ",         " + purchase.customerId + ",         " + purchase.amount + ",        " + purchase.purchaseDate);
+            System.out.println(purchase.id + ",         " + purchase.productId + ",  "+purchase.productName+ "      "
+                    + purchase.customerId + ",  "+purchase.customerName+ "    ,   " + purchase.amount + ",        " + purchase.purchaseDate);
         }
     }
 
@@ -143,8 +142,6 @@ public class ConsoleLauncher {
             System.out.println("Customer has been deleted");
             System.out.println();
         }
-
-
     }
 
     private static void insertNewCustomers() throws IOException, SQLException, ParseException {
@@ -162,7 +159,6 @@ public class ConsoleLauncher {
         db.insertCustomer(customer);
         System.out.println("Customer has been added");
         System.out.println();
-
     }
 
     private static void printAllCustomers() throws SQLException {
