@@ -35,7 +35,7 @@ public class Db {
     public List<Purchase> findAllPurchases() throws SQLException {
         Statement stat = conn.createStatement();
         ResultSet rs = stat.executeQuery("SELECT\n" +
-                "  pur.ID,\n" +
+                "  pur.ID id,\n" +
                 "  pur.PRODUCT_ID,\n" +
                 "  pur.CUSTOMER_ID,\n" +
                 "  pur.AMOUNT,\n" +
@@ -46,7 +46,7 @@ public class Db {
                 "WHERE pur.CUSTOMER_ID = c.ID AND pur.PRODUCT_ID = pr.ID");
         List<Purchase> list = new ArrayList<>();
         while (rs.next()) {
-            Purchase purchase = new Purchase(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getDouble(4), rs.getDate(5).getTime());
+            Purchase purchase = new Purchase(rs.getLong("id"), rs.getLong(2), rs.getLong(3), rs.getDouble(4), rs.getDate(5).getTime());
             purchase.customerName = rs.getString(7);
             purchase.productName = rs.getString(6);
             list.add(purchase);

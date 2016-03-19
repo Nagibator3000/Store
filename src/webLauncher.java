@@ -11,17 +11,19 @@ import java.io.IOException;
 import java.util.Date;
 
 
-public class JettyTestLauncher {
+public class WebLauncher {
+    public static Db db;
+
     public static void main(String[] args) throws Exception {
-        Server server = new Server(80);
+        db = new Db();
+        Server server = new Server(8080);
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(HomeServlet.class, "/");
-        handler.addServletWithMapping(ProductsServlet.class, "/products");
+        handler.addServletWithMapping(ProductsServlet.class, "/products/*");
         server.setHandler(handler);
         server.start();
         server.join();
     }
 
-
-    }
+}
 

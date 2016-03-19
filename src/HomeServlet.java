@@ -16,9 +16,9 @@ public class HomeServlet extends HttpServlet {
                 "</head>\n" +
                 "<body>\n" +
                 "<h1>Welcome to store</h1>\n" +
-                "<a href = \"products\">Go to products</a><br>"+
-                "<a href = \"customers\">Go to customers</a><br>"+
-                "<a href = \"purchases\">Go to purchases</a>"+
+                "<a href = \"\\products\">Go to products</a><br>"+
+                "<a href = \"\\customers\">Go to customers</a><br>"+
+                "<a href = \"\\purchases\">Go to purchases</a>"+
                 "</body>\n" +
                 "\n" +
                 "</html>");
