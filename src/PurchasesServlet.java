@@ -1,5 +1,5 @@
 import model.Customer;
-import model.Product;
+import model.Purchase;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,14 +9,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-public class CustomersServlet extends HttpServlet {
-
+public class PurchasesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+/*
         String url = req.getPathInfo();
         String lastSegmet = url.substring(url.lastIndexOf("/") + 1, url.length());
         switch (lastSegmet) {
@@ -40,16 +38,16 @@ public class CustomersServlet extends HttpServlet {
 
             case "delete":
                 try {
-                  long customer_id = Long.parseLong(req.getParameter("customer_id"));
+                    long customer_id = Long.parseLong(req.getParameter("customer_id"));
                     System.out.print(customer_id);
                     WebLauncher.db.deleteProduct(customer_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-        }
+        }*/
 
 
-        resp.sendRedirect(".");
+     //   resp.sendRedirect(".");
     }
 
     @Override
@@ -74,19 +72,20 @@ public class CustomersServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
-            List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
-            for (Customer customer : allCustomers) {
-                outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + customer.dateBirthDay +
-                        "</td><td>"+"<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>"+
-               "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";
+            List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
+            for (Purchase purchase : allPurchases) {
+                outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +
+                        "</td><td>"+purchase.customerId+"</td><td>"+purchase.customerName+"</td><td>"+purchase.amount+"</td><td>"+purchase.purchaseDate+"</td></tr>";
+                      /*  "</td><td>"+"<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>"+
+                        "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";*/
 
             }
             outputString += "</table>";
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        outputString += "<form action='customers/add' method='post'>Name<input type='text' name='customer_name'>" +
-                "Date<input type='text' name='customer_dateBirthDay'><input type='submit' value='add'></form>";
+    /*    outputString += "<form action='customers/add' method='post'>Name<input type='text' name='customer_name'>" +
+                "Date<input type='text' name='customer_dateBirthDay'><input type='submit' value='add'></form>";*/
         outputString += end;
 
         httpServletResponse.getWriter().println(outputString);
