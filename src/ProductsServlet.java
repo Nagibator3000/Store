@@ -65,6 +65,7 @@ public class ProductsServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
+            outputString+="<tr><td>Id</td><td>Name</td><td>Price</td></tr>" ;
             List<Product> allProducts = WebLauncher.db.findAllProducts();
             for (Product product : allProducts) {
 

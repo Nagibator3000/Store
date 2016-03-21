@@ -69,6 +69,7 @@ public class PurchasesServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
+            outputString+="<tr><td>Id</td><td>Product Id</td><td>Product Name</td><td><Customer Id/td><td>Customer Name</td><td>Amount</td><td>Date</td></tr>";
             List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
             for (Purchase purchase : allPurchases) {
                 outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +

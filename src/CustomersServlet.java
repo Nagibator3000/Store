@@ -74,6 +74,7 @@ public class CustomersServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
+            outputString+="<tr><td>Id</td><td>Name</td><td>Date</td></tr>" ;
             List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
             for (Customer customer : allCustomers) {
                 outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + customer.dateBirthDay +
