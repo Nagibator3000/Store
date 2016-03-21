@@ -20,6 +20,8 @@ public class WebLauncher {
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(HomeServlet.class, "/");
         handler.addServletWithMapping(ProductsServlet.class, "/products/*");
+        handler.addServletWithMapping(CustomersServlet.class, "/customers/*");
+        handler.addServletWithMapping(PurchasesServlet.class, "/purchases/*");
         server.setHandler(handler);
         server.start();
         server.join();

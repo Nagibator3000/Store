@@ -14,40 +14,37 @@ import java.util.List;
 public class PurchasesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-/*
+
         String url = req.getPathInfo();
         String lastSegmet = url.substring(url.lastIndexOf("/") + 1, url.length());
         switch (lastSegmet) {
             case "add":
-                String name = req.getParameter("customer_name");
-                String dateBirthDay = req.getParameter("customer_dateBirthDay");
-                System.out.printf(name + "||| " + dateBirthDay);
-                Customer customer = new Customer();
-                customer.name = name;
+                String purchases_productId = req.getParameter("purchases_productId");
+                String purchases_customerId = req.getParameter("purchases_customerId");
+                String purcahses_amount = req.getParameter("purchases_amount");
+                String purchases_purchaseDate = req.getParameter("purchases_purchaseDate");
+                System.out.printf(purchases_customerId + "||| " + purchases_productId + "|||" + "");
+                Purchase purchase = new Purchase();
+                purchase.productId = Long.parseLong(purchases_productId);
+                purchase.customerId = Long.parseLong(purchases_customerId);
+                purchase.amount = Double.parseDouble(purcahses_amount);
                 try {
-                    customer.dateBirthDay = new SimpleDateFormat("yyyy-MM-dd").parse(dateBirthDay);
+                    purchase.purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(purchases_purchaseDate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
                 try {
-                    WebLauncher.db.insertCustomer(customer);
+                    WebLauncher.db.insert(purchase);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 break;
 
-            case "delete":
-                try {
-                    long customer_id = Long.parseLong(req.getParameter("customer_id"));
-                    System.out.print(customer_id);
-                    WebLauncher.db.deleteProduct(customer_id);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-        }*/
+        }
 
 
-     //   resp.sendRedirect(".");
+        resp.sendRedirect(".");
     }
 
     @Override
@@ -75,17 +72,19 @@ public class PurchasesServlet extends HttpServlet {
             List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
             for (Purchase purchase : allPurchases) {
                 outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +
-                        "</td><td>"+purchase.customerId+"</td><td>"+purchase.customerName+"</td><td>"+purchase.amount+"</td><td>"+purchase.purchaseDate+"</td></tr>";
-                      /*  "</td><td>"+"<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>"+
-                        "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";*/
+                        "</td><td>" + purchase.customerId + "</td><td>" + purchase.customerName + "</td><td>" + purchase.amount + "</td><td>" + purchase.purchaseDate + "</td></tr>";
+
 
             }
             outputString += "</table>";
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    /*    outputString += "<form action='customers/add' method='post'>Name<input type='text' name='customer_name'>" +
-                "Date<input type='text' name='customer_dateBirthDay'><input type='submit' value='add'></form>";*/
+        outputString += "<form action='purchases/add' method='post'>ProductId<input type='text' name='purchases_productId'>" +
+                "CustomerId<input type='text' name='purchases_customerId'>" +
+                "Amount<input type='text' name='purchases_amount'>" +
+                "Date<input type='text' name='purchases_purchaseDate'>" +
+                "<input type='submit' value='add'></form>";
         outputString += end;
 
         httpServletResponse.getWriter().println(outputString);
