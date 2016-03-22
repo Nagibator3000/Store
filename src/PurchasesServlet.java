@@ -1,4 +1,5 @@
 import model.Customer;
+import model.Product;
 import model.Purchase;
 
 import javax.servlet.ServletException;
@@ -19,14 +20,14 @@ public class PurchasesServlet extends HttpServlet {
         String lastSegmet = url.substring(url.lastIndexOf("/") + 1, url.length());
         switch (lastSegmet) {
             case "add":
-                String purchases_productId = req.getParameter("purchases_productId");
-                String purchases_customerId = req.getParameter("purchases_customerId");
+                String product_name = req.getParameter("product_name");
+                String customer_name = req.getParameter("customer_name");
                 String purchases_amount = req.getParameter("purchases_amount");
                 String purchases_purchaseDate = req.getParameter("purchases_purchaseDate");
-                System.out.printf(purchases_customerId + "||| " + purchases_productId + "|||" + "");
+                System.out.printf(customer_name + "||| " +product_name + "|||" + "");
                 Purchase purchase = new Purchase();
-                purchase.productId = Long.parseLong(purchases_productId);
-                purchase.customerId = Long.parseLong(purchases_customerId);
+                purchase.productId = Long.parseLong(product_name);
+                purchase.customerId = Long.parseLong(customer_name);
                 purchase.amount = Double.parseDouble(purchases_amount);
                 try {
                     purchase.purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(purchases_purchaseDate);
@@ -69,7 +70,7 @@ public class PurchasesServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
-            outputString+="<tr><td>Id</td><td>Product Id</td><td>Product Name</td><td><Customer Id/td><td>Customer Name</td><td>Amount</td><td>Date</td></tr>";
+            outputString += "<tr><td>Id</td><td>Product Id</td><td>Product Name</td><td><Customer Id/td><td>Customer Name</td><td>Amount</td><td>Date</td></tr>";
             List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
             for (Purchase purchase : allPurchases) {
                 outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +
@@ -81,11 +82,30 @@ public class PurchasesServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        outputString += "<form action='purchases/add' method='post'>ProductId<input type='text' name='purchases_productId'>" +
-                "CustomerId<input type='text' name='purchases_customerId'>" +
-                "Amount<input type='text' name='purchases_amount'>" +
+        outputString += "<form action='purchases/add' method='post'>ProductName<select name = 'product_name'>";
+        try {
+            List<Product> allProducts = WebLauncher.db.findAllProducts();
+            for (Product product : allProducts) {
+                outputString += "<option value = '"+product.id+"'>" + product.name + "</option>";
+            }
+        } catch (SQLException e) {
+
+
+        }
+        outputString += "</select>" +
+                "CustomerName<select name = 'customer_name'>";
+        try {
+            List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
+            for (Customer customer : allCustomers) {
+                outputString += "<option value='"+customer.id+"'>"+customer.name+"("+customer.id+")"+"</option>";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+       outputString+= "</select>Amount<input type='text' name='purchases_amount'>" +
                 "Date<input type='text' name='purchases_purchaseDate'>" +
                 "<input type='submit' value='add'></form>";
+
         outputString += end;
 
         httpServletResponse.getWriter().println(outputString);

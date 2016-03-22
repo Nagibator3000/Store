@@ -11,6 +11,8 @@ public class Purchase {
     public String customerName;
     public String productName;
 
+
+
     public Purchase(long id, long productId, long customerId, double amount, long date) {
 
         this.id = id;
