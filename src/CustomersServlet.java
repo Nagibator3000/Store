@@ -42,7 +42,7 @@ public class CustomersServlet extends HttpServlet {
                 try {
                   long customer_id = Long.parseLong(req.getParameter("customer_id"));
                     System.out.print(customer_id);
-                    WebLauncher.db.deleteProduct(customer_id);
+                    WebLauncher.db.deleteCustomer(customer_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

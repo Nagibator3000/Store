@@ -21,13 +21,13 @@ public class PurchasesServlet extends HttpServlet {
             case "add":
                 String purchases_productId = req.getParameter("purchases_productId");
                 String purchases_customerId = req.getParameter("purchases_customerId");
-                String purcahses_amount = req.getParameter("purchases_amount");
+                String purchases_amount = req.getParameter("purchases_amount");
                 String purchases_purchaseDate = req.getParameter("purchases_purchaseDate");
                 System.out.printf(purchases_customerId + "||| " + purchases_productId + "|||" + "");
                 Purchase purchase = new Purchase();
                 purchase.productId = Long.parseLong(purchases_productId);
                 purchase.customerId = Long.parseLong(purchases_customerId);
-                purchase.amount = Double.parseDouble(purcahses_amount);
+                purchase.amount = Double.parseDouble(purchases_amount);
                 try {
                     purchase.purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(purchases_purchaseDate);
                 } catch (ParseException e) {
