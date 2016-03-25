@@ -36,7 +36,7 @@ public class PurchasesServlet extends HttpServlet {
                 }
 
                 try {
-                    WebLauncher.db.insert(purchase);
+                    WebLauncher1.db.insert(purchase);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -71,7 +71,7 @@ public class PurchasesServlet extends HttpServlet {
         try {
             outputString += "<table border= '1px'>";
             outputString += "<tr><td>Id</td><td>Product Id</td><td>Product Name</td><td><Customer Id/td><td>Customer Name</td><td>Amount</td><td>Date</td></tr>";
-            List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
+            List<Purchase> allPurchases = WebLauncher1.db.findAllPurchases();
             for (Purchase purchase : allPurchases) {
                 outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +
                         "</td><td>" + purchase.customerId + "</td><td>" + purchase.customerName + "</td><td>" + purchase.amount + "</td><td>" + purchase.purchaseDate + "</td></tr>";
@@ -84,7 +84,7 @@ public class PurchasesServlet extends HttpServlet {
         }
         outputString += "<form action='purchases/add' method='post'>ProductName<select name = 'product_name'>";
         try {
-            List<Product> allProducts = WebLauncher.db.findAllProducts();
+            List<Product> allProducts = WebLauncher1.db.findAllProducts();
             for (Product product : allProducts) {
                 outputString += "<option value = '"+product.id+"'>" + product.name + "</option>";
             }
@@ -95,7 +95,7 @@ public class PurchasesServlet extends HttpServlet {
         outputString += "</select>" +
                 "CustomerName<select name = 'customer_name'>";
         try {
-            List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
+            List<Customer> allCustomers = WebLauncher1.db.findAllCustomers();
             for (Customer customer : allCustomers) {
                 outputString += "<option value='"+customer.id+"'>"+customer.name+"("+customer.id+")"+"</option>";
             }
