@@ -1,3 +1,5 @@
+package web;
+
 import model.Customer;
 import model.Product;
 import model.Purchase;

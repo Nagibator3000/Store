@@ -1,4 +1,5 @@
 import model.Customer;
+import model.Db;
 import model.Product;
 import model.Purchase;
 

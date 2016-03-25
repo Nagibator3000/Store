@@ -1,3 +1,5 @@
+package web;
+
 import model.Customer;
 
 import javax.servlet.ServletException;
