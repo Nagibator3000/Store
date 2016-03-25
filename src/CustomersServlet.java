@@ -30,7 +30,7 @@ public class CustomersServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 try {
-                    WebLauncher1.db.insertCustomer(customer);
+                    WebLauncher.db.insertCustomer(customer);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -40,7 +40,7 @@ public class CustomersServlet extends HttpServlet {
                 try {
                   long customer_id = Long.parseLong(req.getParameter("customer_id"));
                     System.out.print(customer_id);
-                    WebLauncher1.db.deleteCustomer(customer_id);
+                    WebLauncher.db.deleteCustomer(customer_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -73,7 +73,7 @@ public class CustomersServlet extends HttpServlet {
         try {
             outputString += "<table border= '1px'>";
             outputString+="<tr><td>Id</td><td>Name</td><td>Date</td></tr>" ;
-            List<Customer> allCustomers = WebLauncher1.db.findAllCustomers();
+            List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
             for (Customer customer : allCustomers) {
                 outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + customer.dateBirthDay +
                         "</td><td>"+"<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>"+

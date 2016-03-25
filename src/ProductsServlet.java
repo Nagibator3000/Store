@@ -23,7 +23,7 @@ public class ProductsServlet extends HttpServlet {
                 product.name = name;
                 product.price = Double.parseDouble(price);
                 try {
-                    WebLauncher1.db.insertNewProduct(product);
+                    WebLauncher.db.insertNewProduct(product);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -33,7 +33,7 @@ public class ProductsServlet extends HttpServlet {
                 try {
                     long product_id = Long.parseLong(req.getParameter("product_id"));
                     System.out.print(product_id);
-                    WebLauncher1.db.deleteProduct(product_id);
+                    WebLauncher.db.deleteProduct(product_id);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -65,7 +65,7 @@ public class ProductsServlet extends HttpServlet {
         try {
             outputString += "<table border= '1px'>";
             outputString+="<tr><td>Id</td><td>Name</td><td>Price</td></tr>" ;
-            List<Product> allProducts = WebLauncher1.db.findAllProducts();
+            List<Product> allProducts = WebLauncher.db.findAllProducts();
             for (Product product : allProducts) {
 
                 outputString +=
