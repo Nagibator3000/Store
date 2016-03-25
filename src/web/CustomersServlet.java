@@ -14,12 +14,14 @@ import java.util.List;
 
 public class CustomersServlet extends HttpServlet {
 
+    public static final String SQL_ERROR = "sqlerror";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String url = req.getPathInfo();
-        String lastSegmet = url.substring(url.lastIndexOf("/") + 1, url.length());
-        switch (lastSegmet) {
+        String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
+        switch (lastSegment) {
             case "add":
                 String name = req.getParameter("customer_name");
                 String dateBirthDay = req.getParameter("customer_dateBirthDay");
@@ -40,10 +42,11 @@ public class CustomersServlet extends HttpServlet {
 
             case "delete":
                 try {
-                  long customer_id = Long.parseLong(req.getParameter("customer_id"));
+                    long customer_id = Long.parseLong(req.getParameter("customer_id"));
                     System.out.print(customer_id);
                     WebLauncher.db.deleteCustomer(customer_id);
                 } catch (SQLException e) {
+                    resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
                 }
         }
@@ -58,6 +61,7 @@ public class CustomersServlet extends HttpServlet {
         httpServletResponse.setContentType("text/html");
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 
+
         String end = "</body>\n" +
                 "\n" +
                 "</html>";
@@ -71,15 +75,21 @@ public class CustomersServlet extends HttpServlet {
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
 
-
+        String url = request.getPathInfo();
+        if (url != null) {
+            String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
+            if (lastSegment.equals(SQL_ERROR)) {
+                outputString += "operation failed,cause of sqlException";
+            }
+        }
         try {
             outputString += "<table border= '1px'>";
-            outputString+="<tr><td>Id</td><td>Name</td><td>Date</td></tr>" ;
+            outputString += "<tr><td>Id</td><td>Name</td><td>Date</td></tr>";
             List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
             for (Customer customer : allCustomers) {
-                outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + customer.dateBirthDay +
-                        "</td><td>"+"<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>"+
-               "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";
+                outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + new SimpleDateFormat("yyyy-MM-dd").format(customer.dateBirthDay) +
+                        "</td><td>" + "<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>" +
+                        "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";
 
             }
             outputString += "</table>";

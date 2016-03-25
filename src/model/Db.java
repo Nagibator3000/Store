@@ -17,7 +17,7 @@ public class Db {
         Class.forName("org.sqlite.JDBC");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
-        conn = DriverManager.getConnection("jdbc:sqlite:model.Db", config.toProperties());
+        conn = DriverManager.getConnection("jdbc:sqlite:Db", config.toProperties());
 
     }
 

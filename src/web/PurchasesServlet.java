@@ -76,7 +76,7 @@ public class PurchasesServlet extends HttpServlet {
             List<Purchase> allPurchases = WebLauncher.db.findAllPurchases();
             for (Purchase purchase : allPurchases) {
                 outputString += "<tr><td>" + purchase.id + "</td><td>" + purchase.productId + "</td><td>" + purchase.productName +
-                        "</td><td>" + purchase.customerId + "</td><td>" + purchase.customerName + "</td><td>" + purchase.amount + "</td><td>" + purchase.purchaseDate + "</td></tr>";
+                        "</td><td>" + purchase.customerId + "</td><td>" + purchase.customerName + "</td><td>" + purchase.amount + "</td><td>" + new SimpleDateFormat("yyyy-MM-dd").format(purchase.purchaseDate) + "</td></tr>";
 
 
             }
@@ -84,7 +84,7 @@ public class PurchasesServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        outputString += "<form action='purchases/add' method='post'>ProductName<select name = 'product_name'>";
+        outputString += "<form action='purchases/add' method='post'>ProductName<select name = 'product_name'><option></option>";
         try {
             List<Product> allProducts = WebLauncher.db.findAllProducts();
             for (Product product : allProducts) {
@@ -95,7 +95,7 @@ public class PurchasesServlet extends HttpServlet {
 
         }
         outputString += "</select>" +
-                "CustomerName<select name = 'customer_name'>";
+                "CustomerName<select name = 'customer_name'><option></option>";
         try {
             List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
             for (Customer customer : allCustomers) {

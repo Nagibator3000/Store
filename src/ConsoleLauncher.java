@@ -119,29 +119,34 @@ public class ConsoleLauncher {
         System.out.println("ID | PRODUCT_ID |PRODUCT_NAME| CUSTOMER_ID |CUSTOMER_NAME| AMOUNT | PURCHASE_DATE");
         List<Purchase> purchaseList = db.findAllPurchases();
         for (Purchase purchase : purchaseList) {
-            System.out.println(purchase.id + "            " + purchase.productId + "     "+purchase.productName+ "             "
-                    + purchase.customerId + "            "+purchase.customerName+ "         " + purchase.amount + ",        " + purchase.purchaseDate);
+            System.out.println(purchase.id + "            " + purchase.productId + "     " + purchase.productName + "             "
+                    + purchase.customerId + "            " + purchase.customerName + "         " + purchase.amount + ",        " + purchase.purchaseDate);
         }
     }
 
-    private static void deleteCustomers() throws SQLException, IOException {
+    private static void deleteCustomers() throws IOException {
         System.out.println("Choose option remove");
         System.out.println("1: remove on ID");
         System.out.println("2: remove on name");
         String choice = readString();
-        if (choice.equals("1")) {
-            System.out.println("Enter ID");
-            String id = readString();
-            db.deleteCustomer(Long.parseLong(id));
-            System.out.println("Customer has been deleted");
-            System.out.println();
-        } else {
-            System.out.println("Enter Name");
-            String name = readString();
-            db.deleteCustomer(name);
+        try {
+            if (choice.equals("1")) {
+                System.out.println("Enter ID");
+                String id = readString();
 
-            System.out.println("Customer has been deleted");
-            System.out.println();
+                db.deleteCustomer(Long.parseLong(id));
+                System.out.println("Customer has been deleted");
+                System.out.println();
+            } else {
+                System.out.println("Enter Name");
+                String name = readString();
+                db.deleteCustomer(name);
+
+                System.out.println("Customer has been deleted");
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            System.out.println("Operation failed: " + e.getMessage());
         }
     }
 
@@ -164,9 +169,9 @@ public class ConsoleLauncher {
 
     private static void printAllCustomers() throws SQLException {
         System.out.println("ID,NAME,BIRTH_DATE");
-        List<Customer> customerList =db.findAllCustomers();
+        List<Customer> customerList = db.findAllCustomers();
         for (Customer customer : customerList) {
-            System.out.println(customer.id+" , "+customer.name+" , "+customer.dateBirthDay);
+            System.out.println(customer.id + " , " + customer.name + " , " + customer.dateBirthDay);
         }
     }
 
@@ -204,9 +209,9 @@ public class ConsoleLauncher {
 
     public static void printAllProducts() throws ClassNotFoundException, SQLException {
         System.out.println("ID,NAME,PRICE");
-        List<Product> productslist  = db.findAllProducts() ;
+        List<Product> productslist = db.findAllProducts();
         for (Product product : productslist) {
-            System.out.println(product.id+" , "+product.name+" , "+product.price);
+            System.out.println(product.id + " , " + product.name + " , " + product.price);
         }
     }
 }
