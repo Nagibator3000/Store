@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProductsServlet extends HttpServlet {
+    public static final String SQL_ERROR = "sqlerror";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -37,6 +38,7 @@ public class ProductsServlet extends HttpServlet {
                     System.out.print(product_id);
                     WebLauncher.db.deleteProduct(product_id);
                 } catch (SQLException e) {
+                    resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
                 }
         }
@@ -62,6 +64,13 @@ public class ProductsServlet extends HttpServlet {
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
+        String url = request.getPathInfo();
+        if (url != null) {
+            String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
+            if (lastSegment.equals(SQL_ERROR)) {
+                outputString += "operation failed,cause of sqlException";
+            }
+        }
 
 
         try {
