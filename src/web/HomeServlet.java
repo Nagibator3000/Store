@@ -12,12 +12,14 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         httpServletResponse.setContentType("text/html");
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+
         httpServletResponse.getWriter().println("<!DOCTYPE html><html>\n" +
                 "<head>\n" +
                 "<title>Store</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "<h1>Welcome to store</h1>\n" +
+                "<br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeather()+"&#176C"+"<br>"+
                 "<a href = \"\\products\">Go to products</a><br>"+
                 "<a href = \"\\customers\">Go to customers</a><br>"+
                 "<a href = \"\\purchases\">Go to purchases</a>"+

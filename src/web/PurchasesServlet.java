@@ -65,6 +65,7 @@ public class PurchasesServlet extends HttpServlet {
                 "</head>\n" +
                 "<body>\n" +
                 "<h1>Purchases</h1>\n" +
+                "<br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeather()+"&#176C"+"<br>"+
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
