@@ -6,7 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class HomeServlet extends HttpServlet {
+public class ReportsServlet extends HttpServlet{
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         httpServletResponse.setContentType("text/html");
@@ -21,17 +26,16 @@ public class HomeServlet extends HttpServlet {
                 "  <style type=\"text/css\"> \n" +
                 "   #rightcol {\n" +
                 "    position: relative; \n" +
-                "    left:500px; \n" +
+                "    left:500px;\n" +
                 "    width: 550px; \n" +
-                "    background: #e0e0e0; \n" +
-                "    padding: 10px; \n" +
+                "    background: #e0e0e0;\n" +
+                "    padding: 10px;\n" +
                 "   }\n" +
                 "  </style>"+
                 "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeatherInVrn()+"&#176C"+"<br>" +
                 "<br>Temp in Piter ="+ WeatherMesenger.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
-                "<a href = \"\\products\">Go to products</a><br>"+
-                "<a href = \"\\customers\">Go to customers</a><br>"+
-                "<a href = \"\\purchases\">Go to purchases</a>"+
+                "<form action='reports/get' method='post'>First date<input type='text' name='first_date'>Second date<input type='text' name='second_date'>" +
+                "<input type='submit' value='get'></form>"+
                 "</body>\n" +
                 "\n" +
                 "</html>");

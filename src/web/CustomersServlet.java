@@ -73,11 +73,11 @@ public class CustomersServlet extends HttpServlet {
                 "<h1>Customers</h1>\n" +
                 "  <style type=\"text/css\"> \n" +
                 "   #rightcol {\n" +
-                "    position: relative; /* Относительное позиционирование */\n" +
-                "    left: 200px; /* Смещаем слой вправо на ширину левого слоя */\n" +
-                "    width: 550px; /* Ширина слоя */\n" +
-                "    background: #e0e0e0; /* Цвет фона */\n" +
-                "    padding: 10px; /* Поля вокруг текста */\n" +
+                "    position: relative; \n" +
+                "    left: 200px; \n" +
+                "    width: 550px; \n" +
+                "    background: #e0e0e0; \n" +
+                "    padding: 10px; \n" +
                 "   }\n" +
                 "  </style>"+
                 "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
