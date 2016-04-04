@@ -73,7 +73,7 @@ public class CustomersServlet extends HttpServlet {
                 "<h1>Customers</h1>\n" +
                 "  <style type=\"text/css\"> \n" +
                 "   #rightcol {\n" +
-                "    position: relative; \n" +
+                "    position: relative;\n" +
                 "    left: 200px; \n" +
                 "    width: 550px; \n" +
                 "    background: #e0e0e0; \n" +
