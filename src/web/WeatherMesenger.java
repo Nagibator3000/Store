@@ -22,10 +22,14 @@ public class WeatherMesenger {
 
     long tmp;
 
-   public float getWeather() throws IOException {
+   public float getWeatherInVrn() throws IOException {
        WeatherRespones weatherRespones = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=voronezh&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherRespones.class);
        return  weatherRespones.main.temp;
    }
+    public float getWeatherInStPtr() throws IOException {
+        WeatherRespones weatherRespones = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=saintpetersburg&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherRespones.class);
+        return  weatherRespones.main.temp;
+    }
     public static String getUrl(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
