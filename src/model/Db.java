@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Db {
     private final Connection conn;
-    public long first;
-    public long second;
 
     public Db() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");

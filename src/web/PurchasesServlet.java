@@ -43,11 +43,7 @@ public class PurchasesServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
-            case "reports":
-                String firstDate = req.getParameter("first_date");
-                String secondDate = req.getParameter("second_date");
-                WebLauncher.db.second = Long.parseLong(secondDate);
-                WebLauncher.db.first = Long.parseLong(firstDate);
+
 
         }
 
@@ -123,10 +119,8 @@ public class PurchasesServlet extends HttpServlet {
        outputString+= "</select>Amount<input type='text' name='purchases_amount'>" +
                 "Date<input type='text' name='purchases_purchaseDate'>" +
                 "<input type='submit' value='add'></form>";
-        outputString+= "<br>" +
-                "<br>";
-        outputString +=  "<form action='purchases/reports' method='post'>First date<input type='text' name='first_date'>Second date<input type='text' name='second_date'>" +
-                "<input type='submit' value='get' onClick ='location.href=\"\\reports\"'></form>";
+
+
 
         outputString += end;
 
