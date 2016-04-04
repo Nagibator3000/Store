@@ -1,21 +1,20 @@
 package web;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.bcel.internal.generic.I2F;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
 
-public class WeatherMesenger {
-    private  static WeatherMesenger instance;
+public class WeatherManager {
+    private  static WeatherManager instance;
 
-    public WeatherMesenger() {
+    public WeatherManager() {
     }
-    public static WeatherMesenger getInstance(){
+    public static WeatherManager getInstance(){
         if (instance==null){
-            instance = new WeatherMesenger();
+            instance = new WeatherManager();
         }
         return instance;
     }

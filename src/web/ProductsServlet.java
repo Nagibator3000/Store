@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ProductsServlet extends HttpServlet {
     public static final String SQL_ERROR = "sqlerror";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -28,6 +29,7 @@ public class ProductsServlet extends HttpServlet {
                 try {
                     WebLauncher.db.insertNewProduct(product);
                 } catch (SQLException e) {
+                    resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
                 }
                 break;
@@ -69,9 +71,9 @@ public class ProductsServlet extends HttpServlet {
                 "    background: #e0e0e0; n" +
                 "    padding: 10px; \n" +
                 "   }\n" +
-                "  </style>"+
-                "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
-                "<br>Temp in Piter ="+ WeatherMesenger.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
+                "  </style>" +
+                "<div id ='rightcol'><br>Temp in Voronezh =" + WeatherManager.getInstance().getWeatherInVrn() + "&#176C" + "<br>" +
+                "<br>Temp in Piter =" + WeatherManager.getInstance().getWeatherInStPtr() + "&#176C" + "<br></div>" +
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
@@ -86,7 +88,7 @@ public class ProductsServlet extends HttpServlet {
 
         try {
             outputString += "<table border= '1px'>";
-            outputString+="<tr><td>Id</td><td>Name</td><td>Price</td></tr>" ;
+            outputString += "<tr><td>Id</td><td>Name</td><td>Price</td></tr>";
             List<Product> allProducts = WebLauncher.db.findAllProducts();
             for (Product product : allProducts) {
 

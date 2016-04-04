@@ -43,6 +43,11 @@ public class PurchasesServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "reports":
+                String firstDate = req.getParameter("first_date");
+                String secondDate = req.getParameter("second_date");
+                WebLauncher.db.second = Long.parseLong(secondDate);
+                WebLauncher.db.first = Long.parseLong(firstDate);
 
         }
 
@@ -74,8 +79,8 @@ public class PurchasesServlet extends HttpServlet {
                 "    padding: 10px; \n" +
                 "   }\n" +
                 "  </style>"+
-                "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherMesenger.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
-                "<br>Temp in Piter ="+ WeatherMesenger.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
+                "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherManager.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
+                "<br>Temp in Piter ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
@@ -118,6 +123,10 @@ public class PurchasesServlet extends HttpServlet {
        outputString+= "</select>Amount<input type='text' name='purchases_amount'>" +
                 "Date<input type='text' name='purchases_purchaseDate'>" +
                 "<input type='submit' value='add'></form>";
+        outputString+= "<br>" +
+                "<br>";
+        outputString +=  "<form action='purchases/reports' method='post'>First date<input type='text' name='first_date'>Second date<input type='text' name='second_date'>" +
+                "<input type='submit' value='get' onClick ='location.href=\"\\reports\"'></form>";
 
         outputString += end;
 
