@@ -1,4 +1,4 @@
-package web;
+package weather;
 
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;

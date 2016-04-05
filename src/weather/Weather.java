@@ -1,4 +1,4 @@
-package web;
+package weather;
 
 public class Weather {
     float temp;

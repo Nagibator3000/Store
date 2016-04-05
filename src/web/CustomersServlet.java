@@ -1,6 +1,7 @@
 package web;
 
 import model.Customer;
+import weather.WeatherManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

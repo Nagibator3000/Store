@@ -1,6 +1,7 @@
 package web;
 
 import model.Purchase;
+import weather.WeatherManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,7 @@ public class ReportsServlet extends HttpServlet{
         String second_date = req.getParameter("second_date");
         first = Long.parseLong(first_date);
         second = Long.parseLong(second_date);
+        resp.sendRedirect(".");
     }
 
     @Override

@@ -3,6 +3,7 @@ package web;
 import model.Customer;
 import model.Product;
 import model.Purchase;
+import weather.WeatherManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

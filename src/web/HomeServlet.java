@@ -1,5 +1,7 @@
 package web;
 
+import weather.WeatherManager;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

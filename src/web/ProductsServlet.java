@@ -1,6 +1,7 @@
 package web;
 
 import model.Product;
+import weather.WeatherManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,7 @@ public class ProductsServlet extends HttpServlet {
                 } catch (SQLException e) {
                     resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
+                    return;
                 }
                 break;
 
@@ -42,6 +44,7 @@ public class ProductsServlet extends HttpServlet {
                 } catch (SQLException e) {
                     resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
+                    return;
                 }
         }
 
