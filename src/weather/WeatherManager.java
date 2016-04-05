@@ -22,12 +22,16 @@ public class WeatherManager {
     long tmp;
 
    public float getWeatherInVrn() throws IOException {
-       WeatherRespones weatherRespones = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=voronezh&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherRespones.class);
-       return  weatherRespones.main.temp;
+       System.out.println("getWeatherInVrn start");
+       WeatherResponse weatherResponse = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=voronezh&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherResponse.class);
+       System.out.println("getWeatherInVrn end");
+       return  weatherResponse.main.temp;
    }
     public float getWeatherInStPtr() throws IOException {
-        WeatherRespones weatherRespones = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=saintpetersburg&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherRespones.class);
-        return  weatherRespones.main.temp;
+        System.out.println("getWeatherInStPtr start");
+        WeatherResponse weatherResponse = new Gson().fromJson(getUrl("http://api.openweathermap.org/data/2.5/weather?q=saintpetersburg&appid=ef0947e508f1ab41afed02f25aa8db65&units=metric"), WeatherResponse.class);
+        System.out.println("getWeatherInStPtr end");
+        return  weatherResponse.main.temp;
     }
     public static String getUrl(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();

@@ -80,7 +80,7 @@ public class Db {
                 "  pr.name,\n" +
                 "  c.name\n" +
                 "FROM Products pr, Customers c, Purchases pur\n" +
-                "WHERE pur.CUSTOMER_ID = c.ID AND pur.PRODUCT_ID = pr.ID and pur.PURCHASE_DATE<" + s + " and pur.PURCHASE_DATE>" + d);
+                "WHERE pur.CUSTOMER_ID = c.ID AND pur.PRODUCT_ID = pr.ID and pur.PURCHASE_DATE>" + s + " and pur.PURCHASE_DATE<" + d);
         List<Purchase> list = new ArrayList<>();
         while (rs.next()) {
             Purchase purchase = new Purchase(rs.getLong("id"), rs.getLong(2), rs.getLong(3), rs.getDouble(4), rs.getDate(5).getTime());

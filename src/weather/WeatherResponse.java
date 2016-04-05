@@ -1,5 +1,5 @@
 package weather;
 
-public class WeatherRespones {
+public class WeatherResponse {
     Weather main ;
 }
