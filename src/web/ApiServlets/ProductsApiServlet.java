@@ -1,7 +1,8 @@
-package web;
+package web.ApiServlets;
 
 import com.google.gson.Gson;
 import model.Product;
+import web.WebLauncher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -3,7 +3,7 @@ package model;
 import java.util.Date;
 
 public class Customer {
-    public Long id;
+    public long id;
     public String name;
     public Date dateBirthDay;
 

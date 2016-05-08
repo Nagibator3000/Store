@@ -3,6 +3,8 @@ package web;
 import model.Db;
 import org.eclipse.jetty.plus.servlet.ServletHandler;
 import org.eclipse.jetty.server.Server;
+import web.ApiServlets.CustomerApiServlet;
+import web.ApiServlets.ProductsApiServlet;
 
 
 public class WebLauncher {
@@ -13,6 +15,7 @@ public class WebLauncher {
         Server server = new Server(8080);
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(ProductsApiServlet.class, "/api/products/*");
+        handler.addServletWithMapping(CustomerApiServlet.class, "/api/customers/*");
         handler.addServletWithMapping(HomeServlet.class, "/");
         handler.addServletWithMapping(ProductsServlet.class, "/products/*");
         handler.addServletWithMapping(CustomersServlet.class, "/customers/*");

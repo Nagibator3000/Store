@@ -26,6 +26,10 @@ public class ProductsServlet extends HttpServlet {
                 System.out.printf(name + " " + price);
                 Product product = new Product();
                 product.name = name;
+                if (price==null || price.equals("")){
+                    resp.sendRedirect("./validationError");
+                   return;
+                }
                 product.price = Double.parseDouble(price);
                 try {
                     WebLauncher.db.insertNewProduct(product);
@@ -85,6 +89,9 @@ public class ProductsServlet extends HttpServlet {
             String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
             if (lastSegment.equals(SQL_ERROR)) {
                 outputString += "operation failed,cause of sqlException";
+            }    else if(lastSegment.equals("validationError")) {
+                outputString+="validation error";
+
             }
         }
 
