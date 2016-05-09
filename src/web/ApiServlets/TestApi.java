@@ -10,10 +10,33 @@ import java.io.IOException;
 public class TestApi {
     public static void main(String[] args) throws IOException {
         testGetProducts();
-        testAddCustomer();
+       // testAddCustomer();
+    //    testAddPurchase();
+        testAddPurchase();
        /* testDeleteProduct();
         testAddProduct();*/
         testGetCustomers();
+    }
+
+    private static void testAddPurchase() throws IOException {
+        RequestBody formBody = new FormBody.Builder()
+                .add("product_name", "2")
+                .add("customer_name", "2")
+                .add("purchase_amount", "2")
+                .add("purchases_purchaseDate", "2000-12-12")
+                .build();
+        Request request = new Request.Builder()
+                .url("http://localhost:8080/api/purchases/add")
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+        System.out.println(response.body().string());
+        System.out.println("ok");
+
     }
 
     private static void testAddProduct() throws IOException {
