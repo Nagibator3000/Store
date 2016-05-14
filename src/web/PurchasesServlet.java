@@ -25,7 +25,7 @@ public class PurchasesServlet extends HttpServlet {
             case "add":
                 String product_name = req.getParameter("product_name");
                 String customer_name = req.getParameter("customer_name");
-                String purchases_amount = req.getParameter("purchases_amount");
+                String purchases_amount = req.getParameter("purchase_amount");
                 String purchases_purchaseDate = req.getParameter("purchases_purchaseDate");
                 System.out.printf(customer_name + "||| " +product_name + "|||" + "");
                 Purchase purchase = new Purchase();
@@ -101,7 +101,7 @@ public class PurchasesServlet extends HttpServlet {
         try {
             List<Product> allProducts = WebLauncher.db.findAllProducts();
             for (Product product : allProducts) {
-                outputString += "<option value = '"+product.id+"'>" + product.name + "</option>";
+                outputString += "<option value = '"+product.id+"'>" + product.name + "("+product.id+")"+"</option>";
             }
         } catch (SQLException e) {
 

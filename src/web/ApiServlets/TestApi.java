@@ -9,20 +9,20 @@ import java.io.IOException;
 
 public class TestApi {
     public static void main(String[] args) throws IOException {
-        testGetProducts();
+     //   testGetProducts();
        // testAddCustomer();
     //    testAddPurchase();
         testAddPurchase();
        /* testDeleteProduct();
         testAddProduct();*/
-        testGetCustomers();
+   //     testGetCustomers();
     }
 
     private static void testAddPurchase() throws IOException {
         RequestBody formBody = new FormBody.Builder()
-                .add("product_name", "2")
-                .add("customer_name", "2")
-                .add("purchase_amount", "2")
+                .add("product_name", "1")
+                .add("customer_name", "1")
+                .add("purchases_amount", "2")
                 .add("purchases_purchaseDate", "2000-12-12")
                 .build();
         Request request = new Request.Builder()

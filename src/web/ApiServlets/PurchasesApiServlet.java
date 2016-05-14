@@ -26,8 +26,9 @@ public class PurchasesApiServlet extends HttpServlet {
                 String product_name = req.getParameter("product_name");
                 String customer_name = req.getParameter("customer_name");
                 String purchases_amount = req.getParameter("purchases_amount");
+
                 String purchases_purchaseDate = req.getParameter("purchases_purchaseDate");
-                System.out.printf(customer_name + "||| " +product_name + "|||" + "");
+                System.out.printf(customer_name + "||| " +product_name + "|||" + purchases_amount+"|||"+purchases_purchaseDate);
                 Purchase purchase = new Purchase();
                 purchase.productId = Long.parseLong(product_name);
                 purchase.customerId = Long.parseLong(customer_name);
