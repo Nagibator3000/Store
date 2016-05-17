@@ -1,7 +1,8 @@
-package web;
+package web.Srevlets;
 
-import model.Product;
+import model.Customer;
 import weather.WeatherManager;
+import web.WebLauncher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,46 +10,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class ProductsServlet extends HttpServlet {
+public class CustomersServlet extends HttpServlet {
+
     public static final String SQL_ERROR = "sqlerror";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String url = req.getPathInfo();
-        String lastSegmet = url.substring(url.lastIndexOf("/") + 1, url.length());
-        switch (lastSegmet) {
+        String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
+        switch (lastSegment) {
             case "add":
-                String name = req.getParameter("product_name");
-                String price = req.getParameter("product_price");
-                System.out.printf(name + " " + price);
-                Product product = new Product();
-                product.name = name;
-                if (price==null || price.equals("")){
-                    resp.sendRedirect("./validationError");
-                   return;
-                }
-                product.price = Double.parseDouble(price);
+                String name = req.getParameter("customer_name");
+                String dateBirthDay = req.getParameter("customer_dateBirthDay");
+                System.out.printf(name + "||| " + dateBirthDay);
+                Customer customer = new Customer();
+                customer.name = name;
                 try {
-                    WebLauncher.db.insertNewProduct(product);
-                } catch (SQLException e) {
-                    resp.sendRedirect("./sqlerror");
+                    customer.dateBirthDay = new SimpleDateFormat("yyyy-MM-dd").parse(dateBirthDay);
+                } catch (ParseException e) {
                     e.printStackTrace();
-                    return;
+                }
+                try {
+                    WebLauncher.db.insertCustomer(customer);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 break;
 
             case "delete":
                 try {
-                    long product_id = Long.parseLong(req.getParameter("product_id"));
-                    System.out.print(product_id);
-                    WebLauncher.db.deleteProduct(product_id);
+                    long customer_id = Long.parseLong(req.getParameter("customer_id"));
+                    System.out.print(customer_id);
+                    WebLauncher.db.deleteCustomer(customer_id);
                 } catch (SQLException e) {
                     resp.sendRedirect("./sqlerror");
                     e.printStackTrace();
-                    return;
                 }
         }
 
@@ -61,6 +62,8 @@ public class ProductsServlet extends HttpServlet {
             httpServletResponse) throws ServletException, IOException {
         httpServletResponse.setContentType("text/html");
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+
+
         String end = "</body>\n" +
                 "\n" +
                 "</html>";
@@ -69,52 +72,46 @@ public class ProductsServlet extends HttpServlet {
                 "<title>Store</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h1>Products</h1>\n" +
+                "<h1>Customers</h1>\n" +
                 "  <style type=\"text/css\"> \n" +
                 "   #rightcol {\n" +
-                "    position: relative; \n" +
-                "    left: 200px; \n" +
+                "    position: absolute;\n" +
+                "    top:50px;\n " +
+                "    left: 600px; \n" +
                 "    width: 550px; \n" +
-                "    background: #e0e0e0; n" +
                 "    padding: 10px; \n" +
                 "   }\n" +
-                "  </style>" +
-                "<div id ='rightcol'><br>Temp in Voronezh =" + WeatherManager.getInstance().getWeatherInVrn() + "&#176C" + "<br>" +
-                "<br>Temp in Piter =" + WeatherManager.getInstance().getWeatherInStPtr() + "&#176C" + "<br></div>" +
+                "  </style>"+
+                "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherManager.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
+                "<br>Temp in St.Petersburg  ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
+
         String url = request.getPathInfo();
         if (url != null) {
             String lastSegment = url.substring(url.lastIndexOf("/") + 1, url.length());
             if (lastSegment.equals(SQL_ERROR)) {
                 outputString += "operation failed,cause of sqlException";
-            }    else if(lastSegment.equals("validationError")) {
-                outputString+="validation error";
-
             }
         }
-
-
         try {
             outputString += "<table border= '1px'>";
-            outputString += "<tr><td>Id</td><td>Name</td><td>Price</td></tr>";
-            List<Product> allProducts = WebLauncher.db.findAllProducts();
-            for (Product product : allProducts) {
-
-                outputString +=
-                        "<tr><td>" + product.id + "</td><td>" + product.name + "</td><td>" + product.price + "</td><td>" +
-                                "<form action = 'products/delete' method = 'post'><input type='submit' value ='delete'/>" +
-                                "<input type = 'hidden' name='product_id' value='" + product.id + "'/></form></td></tr>";
-
+            outputString += "<tr><td>Id</td><td>Name</td><td>Date</td></tr>";
+            List<Customer> allCustomers = WebLauncher.db.findAllCustomers();
+            for (Customer customer : allCustomers) {
+                outputString += "<tr><td>" + customer.id + "</td><td>" + customer.name + "</td><td>" + new SimpleDateFormat("yyyy-MM-dd").format(customer.dateBirthDay) +
+                        "</td><td>" + "<form action='customers/delete' method ='post'><input type='submit' value ='delete'/>" +
+                        "<input type = 'hidden' name='customer_id' value='" + customer.id + "'/></form></td></tr>";
 
             }
             outputString += "</table>";
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        outputString += "<form action='products/add' method='post'>Name<input type='text' name='product_name'>" +
-                "Price<input type='text' name='product_price'><input type='submit' value='add'></form>";
+        outputString += "<form action='customers/add' method='post'>Name<input type='text' name='customer_name'>" +
+                "Date<input type='text' name='customer_dateBirthDay'><input type='submit' value='add'></form>";
+        outputString += "<a href = \"\\\"><<</a>";
         outputString += end;
 
         httpServletResponse.getWriter().println(outputString);

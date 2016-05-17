@@ -1,4 +1,4 @@
-package web;
+package web.Srevlets;
 
 import weather.WeatherManager;
 
@@ -21,16 +21,16 @@ public class HomeServlet extends HttpServlet {
                 "<body>\n" +
                 "<h1>Welcome to store</h1>" +
                 "  <style type=\"text/css\"> \n" +
-                "   #rightcol {\n" +
-                "    position: relative; \n" +
-                "    left:500px; \n" +
+                "   #weather {\n" +
+                "    position: absolute; \n" +
+                "    top:50px;\n " +
+                "    left:600px; \n" +
                 "    width: 550px; \n" +
-                "    background: #e0e0e0; \n" +
-                "    padding: 10px; \n" +
+                "    padding: 0px; \n" +
                 "   }\n" +
                 "  </style>"+
-                "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherManager.getInstance().getWeatherInVrn()+"&#176C"+"<br>" +
-                "<br>Temp in Piter ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
+                "<div id ='weather'><br>Temp in Voronezh ="+ WeatherManager.getInstance().getWeatherInVrn()+"&#176C"+"<br>" +
+                "<br>Temp in St.Petersburg ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
                 "<a href = \"\\products\">Go to products</a><br>"+
                 "<a href = \"\\customers\">Go to customers</a><br>"+
                 "<a href = \"\\purchases\">Go to purchases</a>"+

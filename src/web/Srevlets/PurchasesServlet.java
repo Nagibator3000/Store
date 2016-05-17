@@ -1,9 +1,10 @@
-package web;
+package web.Srevlets;
 
 import model.Customer;
 import model.Product;
 import model.Purchase;
 import weather.WeatherManager;
+import web.WebLauncher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -69,15 +70,15 @@ public class PurchasesServlet extends HttpServlet {
                 "<h1>Purchases</h1>\n" +
                 "  <style type=\"text/css\"> \n" +
                 "   #rightcol {\n" +
-                "    position: \n" +
-                "    left: 200px; \n" +
+                "    position: absolute;\n" +
+                "    top:50px;\n " +
+                "    left: 600px; \n" +
                 "    width: 550px; \n" +
-                "    background: #e0e0e0;\n" +
                 "    padding: 10px; \n" +
                 "   }\n" +
                 "  </style>"+
                 "<div id ='rightcol'><br>Temp in Voronezh ="+ WeatherManager.getInstance().getWeatherInVrn()+"&#176C"+"<br>"+
-                "<br>Temp in Piter ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
+                "<br>Temp in St.Petersburg  ="+ WeatherManager.getInstance().getWeatherInStPtr()+"&#176C"+"<br></div>"+
                 "<a href = \"\\products\">Go to products</a><br>" +
                 "<a href = \"\\customers\">Go to customers</a><br>" +
                 "<a href = \"\\purchases\">Go to purchases</a><br>";
@@ -121,7 +122,7 @@ public class PurchasesServlet extends HttpServlet {
                 "Date<input type='text' name='purchases_purchaseDate'>" +
                 "<input type='submit' value='add'></form>";
 
-
+        outputString += "<a href = \"\\\"><<</a>";
 
         outputString += end;
 

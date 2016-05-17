@@ -1,7 +1,8 @@
-package web;
+package web.Srevlets;
 
 import model.Purchase;
 import weather.WeatherManager;
+import web.WebLauncher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
